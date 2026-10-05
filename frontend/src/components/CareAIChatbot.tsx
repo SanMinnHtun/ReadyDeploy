@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useRouterState } from "@tanstack/react-router";
 import { Bot, Check, Globe, Loader2, Send, Sparkles, X } from "lucide-react";
 
 type Language = {
@@ -46,6 +47,7 @@ const LANGUAGES: Language[] = [
 const FULL_BADGE_TEXT = "Ask CareAI assistant!";
 
 export function CareAIChatbot() {
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
   const [isOpen, setIsOpen] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState<Language | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -103,7 +105,7 @@ export function CareAIChatbot() {
   }
 
   return (
-    <div className="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-3 sm:bottom-6 sm:right-6">
+    <div className={`fixed bottom-5 right-5 z-50 flex flex-col items-end gap-3 sm:bottom-6 sm:right-6 ${!isOpen && pathname === "/symptoms" ? "md:bottom-32" : ""}`}>
       {!isOpen ? (
         <div className="flex items-center gap-2">
           <div className="hidden max-w-48 rounded-xl border border-cyan-100 bg-white px-3 py-2 text-xs font-semibold text-primary shadow-lg sm:block">
